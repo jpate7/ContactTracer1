@@ -6,13 +6,13 @@ package ContactTracer;
 import java.util.Iterator;
 
 public class Person {
-	private final int MAX_CONTACTS = 25;
+	public static final int MAX_CONTACTS = 25;
 	private String name;
 	private String id;
 	private String type;
 	private String phone;
 	private int count;
-	private Person[] contacts;
+	private String[] contactID;
 	private String status;
 	
 	
@@ -22,7 +22,7 @@ public class Person {
 		type = "not set";
 		phone = "not set";
 		count = 0;
-		contacts = new Person[MAX_CONTACTS];
+		contactID = new String[MAX_CONTACTS];
 	}
 	
 	public Person(String n, String i, String t, String number) 
@@ -32,7 +32,7 @@ public class Person {
 		type = t;
 		phone = number;
 		count = 0;
-		contacts = new Person[MAX_CONTACTS];
+		contactID = new String[MAX_CONTACTS];
 
 	} 
 	
@@ -77,9 +77,25 @@ public class Person {
 	{
 		phone = number;
 	}
-	public int getSize()
+	public int getContactSize()
 	{
 		return count;
+	}
+	public void extendContactSize()
+	{
+		Iterator<String> iter = Iterator();
+		String[] newArray = new String[Person.MAX_CONTACTS * 2];
+		int i = 0;
+		while(iter.hasNext())
+		{
+			newArray[i] = iter.next();
+			i++;
+		}
+		contactID = newArray;
+	}public void addContactID(String id)
+	{
+		contactID[count] = id;
+		count++;
 	}
 
 	public String isAtRisk()
@@ -94,10 +110,10 @@ public class Person {
 	{
 		return "Infected";
 	}
-	public Iterator<Person> Iterator()
+	public Iterator<String> Iterator()
 	{
 		//initialize a new iterator to cycle Person contacts
-		return new ObjectIterator<Person>(contacts, count);
+		return new ObjectIterator<String>(contactID, count);
 	}
 	
 	// string representation of this person
