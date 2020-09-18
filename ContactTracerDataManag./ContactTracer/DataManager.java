@@ -7,6 +7,13 @@ import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 
 public class DataManager
@@ -28,6 +35,16 @@ public class DataManager
 			tracers.put(P.getId(), P);	//add Person P to tracers
 										//Person P's ID as HashKey 
 										//Person P reference as Hash value
+	}
+	
+	public boolean containsTracer(Person P)
+	{//returns true if Person P is present in the HashMap tracer
+		
+		if(tracers.containsValue(P))	//if P is a tracer
+			return true;
+		
+		return false;	//if P is not a tracer
+		
 	}
 	
 	public boolean containsContact(Person P, Person C)
@@ -57,16 +74,78 @@ public class DataManager
 			System.out.println("Person is not a contact tracer, cannot add contact!");
 	}
 	
+	public void removeTracer(Person P)
+	{//removes Person P from tracer if present
+		
+		if(tracers.containsValue(P))
+			tracers.remove(P.getId(), P);
+		else
+			System.out.println("Person is not a tracer, cannot remove!");
+	}
+	
 
 	public Person findPerson(String id)
-	{
-		//finds the person with id from tracers using a Iterator
+	{//finds the person with id from tracers
+		if(tracers.containsKey(id))
+			return tracers.get(id);	//returns Person that has the parameter(id) as its key
 		
+		System.out.println("Person is not a tracer, returning a new person with no identification");
 		return new Person();
 	}
-	public Iterator<Person> Iterator()
+	
+	public void writeFile () {
+		// overloaded method: this calls doWrite with file used to read data
+		// use this for saving data between runs
+		doWrite(fileName);
+	} // end of writeFile method
+
+	public void writeFile(String altFileName) {
+		// overloaded method: this calls doWrite with different file name 
+		// use this for testing write
+		doWrite(altFileName);		
+	}// end of writeFile method
+	
+	private void doWrite(String fn) {
+		// this method writes all of the data in the persons array to a file
+		try
+		{
+
+			FileWriter fw = new FileWriter(fn);
+			BufferedWriter myOutfile = new BufferedWriter(fw);	
+			for(String keyId: tracers.keySet())	//iterate over the key-value pairs(ID-Person pair)
+			{
+				myOutfile.write(tracers.get(keyId).getId()+", ");
+				myOutfile.write(tracers.get(keyId).getName()+", ");
+				myOutfile.write(tracers.get(keyId).getType()+", ");
+				myOutfile.write(tracers.get(keyId).getNumber()+", ");
+				myOutfile.write(tracers.get(keyId).getStatus()+", ");
+				
+				myOutfile.write("Contact's ID: [" );
+				Iterator<String> iter = tracers.get(keyId).Iterator();	//iterate over the contact's IDs
+				while(iter.hasNext())
+				{
+					myOutfile.write(iter.next()+ ", ");	//print Person's contact's IDs
+				}
+				myOutfile.write("]");
+			}
+			
+			myOutfile.flush();		//delete anything left in the buffer
+			myOutfile.close();	//finished writing and close write file
+		}
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			System.err.println("Didn't save to " + fn);
+		}
+	}	
+}
+
+	
+	
+	
+	/*public Iterator<Person> Iterator()
 	{
 		//initialize a new iterator to cycle Person contacts
-		return new ObjectIterator<Person>(tracers, count);
-	}
+		return new ObjectIterator<Person>(tracers);
+	}*/
 }

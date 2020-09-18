@@ -92,10 +92,12 @@ public class Person {
 			i++;
 		}
 		contactID = newArray;
-	}public void addContactID(String id)
+	}
+	
+	public void addContactID(String id)
 	{
 		contactID[count] = id;
-		count++;
+		count++;	
 	}
 
 	public String isAtRisk()
@@ -110,6 +112,7 @@ public class Person {
 	{
 		return "Infected";
 	}
+	
 	public Iterator<String> Iterator()
 	{
 		//initialize a new iterator to cycle Person contacts
