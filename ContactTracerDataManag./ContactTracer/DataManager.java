@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package ContactTracer;
 
 import java.util.Iterator;
@@ -93,12 +91,6 @@ public class DataManager
 		return new Person();
 	}
 	
-	public void writeFile () {
-		// overloaded method: this calls doWrite with file used to read data
-		// use this for saving data between runs
-		doWrite(fileName);
-	} // end of writeFile method
-
 	public void writeFile(String altFileName) {
 		// overloaded method: this calls doWrite with different file name 
 		// use this for testing write
@@ -114,11 +106,11 @@ public class DataManager
 			BufferedWriter myOutfile = new BufferedWriter(fw);	
 			for(String keyId: tracers.keySet())	//iterate over the key-value pairs(ID-Person pair)
 			{
-				myOutfile.write(tracers.get(keyId).getId()+", ");
-				myOutfile.write(tracers.get(keyId).getName()+", ");
+				myOutfile.write("ID: " + tracers.get(keyId).getId()+", ");
+				myOutfile.write("Name: " + tracers.get(keyId).getName()+", ");
 				myOutfile.write(tracers.get(keyId).getType()+", ");
-				myOutfile.write(tracers.get(keyId).getNumber()+", ");
-				myOutfile.write(tracers.get(keyId).getStatus()+", ");
+				myOutfile.write("Phone #: " +tracers.get(keyId).getNumber()+", ");
+				myOutfile.write("Status: " + tracers.get(keyId).getStatus()+", ");
 				
 				myOutfile.write("Contact's ID: [" );
 				Iterator<String> iter = tracers.get(keyId).Iterator();	//iterate over the contact's IDs
@@ -126,7 +118,7 @@ public class DataManager
 				{
 					myOutfile.write(iter.next()+ ", ");	//print Person's contact's IDs
 				}
-				myOutfile.write("]");
+				myOutfile.write("]\n");
 			}
 			
 			myOutfile.flush();		//delete anything left in the buffer
@@ -140,7 +132,67 @@ public class DataManager
 	}	
 }
 
-	
+
+/*private void readFile () {
+	BufferedReader lineReader = null;
+	try {
+		FileReader fr = new FileReader(fileName);
+		lineReader = new BufferedReader(fr);
+		String line = null;
+		while ((line = lineReader.readLine())!=null) {
+			String name = lineReader.readLine();
+			String id = lineReader.readLine();
+			if (line.equals("student")) {
+				String gpaString = lineReader.readLine();
+				addStudent(new Student(name,id,Double.parseDouble(gpaString)));
+			}
+			else if (line.equals("instructor")) {
+				String email = lineReader.readLine();
+				addInstructor(new Instructor(name,id,email));
+			}
+			else {
+				System.err.println("error: unnknown person type");
+			}			}
+	} catch (Exception e) {
+		System.err.println("there was a problem with the file reader, try different read type.");
+		try {
+			lineReader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(fileName.substring(1))));
+			String line = null;
+			while ((line = lineReader.readLine())!=null) {
+				String name = lineReader.readLine();
+				String id = lineReader.readLine();
+				if (line.equals("student")) {
+					String gpaString = lineReader.readLine();
+					addStudent(new Student(name,id,Double.parseDouble(gpaString)));
+				}
+				else if (line.equals("instructor")) {
+					String email = lineReader.readLine();
+					addInstructor(new Instructor(name,id,email));
+				}
+				else {
+					System.err.println("error: unnknown person type");
+				}				}
+		} catch (Exception e2) {
+			System.err.println("there was a problem with the file reader, try again.  either no such file or format error");
+		} finally {
+			if (lineReader != null)
+				try {
+					lineReader.close();
+				} catch (IOException e2) {
+					System.err.println("could not close BufferedReader");
+				}
+		}			
+	} finally {
+		if (lineReader != null)
+			try {
+				lineReader.close();
+			} catch (IOException e) {
+				System.err.println("could not close BufferedReader");
+			}
+	}
+} // end of readFile method
+
+	*/
 	
 	
 	/*public Iterator<Person> Iterator()
@@ -148,4 +200,4 @@ public class DataManager
 		//initialize a new iterator to cycle Person contacts
 		return new ObjectIterator<Person>(tracers);
 	}*/
-}
+
