@@ -1,3 +1,1 @@
-ID: 000, Name: John, student, Phone #: 1234567890, Status: Safe, Contact's ID: [002, ]
-ID: 001, Name: Sofie, student, Phone #: 1234563456, Status: Safe, Contact's ID: []
-ID: 002, Name: Jane, student, Phone #: 1234565670, Status: Safe, Contact's ID: [000, ]
+ID: 000; Name: Jake; Phone #: 1234567845; Status: is safe; Contact's ID: [002, 003, 005, 006, ]

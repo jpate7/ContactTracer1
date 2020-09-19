@@ -17,6 +17,7 @@ public class ProjectTester {
 		//Create a new Hashmap Data Manager
 		
 		DataManager manager = new DataManager();
+		/*
 		Person john = new Person("John", "000", "student", "1234567890");
 		Person sofie = new Person("Sofie", "001", "student", "1234563456");
 		Person jane = new Person("Jane", "002", "student", "1234565670");
@@ -31,6 +32,9 @@ public class ProjectTester {
 		manager.addContact(john, jane);
 		
 		manager.writeFile("output.txt");
+		*/
+		manager.readFrom("input.txt");
+		manager.writeFile();
 		
 	}
 

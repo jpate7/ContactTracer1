@@ -24,16 +24,31 @@ public class DataManager
 		tracers = new HashMap<String, Person>();
 	}
 	
+	//--------------------------------METHODS START HERE-------------------------------------------
+	
 	public void addTracer(Person P)
 	{//add person as a tracer, who's status is at risk or higher, and must notify his contacts
 		if(tracers.containsKey(P.getId()))
-			System.out.println("Person is already a tracer, cannot add!");
-		//if tracer has Hash Key equal to Person P's ID, cannot add, already a tracer
+			updateTracer(P);
+		//if tracer has Hash Key equal to Person P's ID, cannot add, instead update
 		else
 			tracers.put(P.getId(), P);	//add Person P to tracers
 										//Person P's ID as HashKey 
 										//Person P reference as Hash value
 	}
+	
+	//---------------------------------------------------------------------------------------------
+	
+	public void updateTracer(Person P)
+	{//privately update information on a tracer
+		
+		if(tracers.containsKey(P.getId()))
+			tracers.replace(P.getId(), P);
+		else
+			System.out.println("Cannot update, Person is not a tracer");
+	}
+	
+	//---------------------------------------------------------------------------------------------
 	
 	public boolean containsTracer(Person P)
 	{//returns true if Person P is present in the HashMap tracer
@@ -44,6 +59,8 @@ public class DataManager
 		return false;	//if P is not a tracer
 		
 	}
+	
+	//---------------------------------------------------------------------------------------------
 	
 	public boolean containsContact(Person P, Person C)
 	{//returns true if Contact C's ID is in Person P's contact collection
@@ -56,6 +73,8 @@ public class DataManager
 		
 		return false;
 	}
+	
+	//--------------------------------------------------------------------------------------------
 	
 	
 	public void addContact(Person P, Person C)	
@@ -72,6 +91,8 @@ public class DataManager
 			System.out.println("Person is not a contact tracer, cannot add contact!");
 	}
 	
+	//----------------------------------------------------------------------------------------
+	
 	public void removeTracer(Person P)
 	{//removes Person P from tracer if present
 		
@@ -80,6 +101,8 @@ public class DataManager
 		else
 			System.out.println("Person is not a tracer, cannot remove!");
 	}
+	
+	//------------------------------------------------------------------------------------------
 	
 
 	public Person findPerson(String id)
@@ -91,11 +114,15 @@ public class DataManager
 		return new Person();
 	}
 	
-	public void writeFile(String altFileName) {
+	//----------------------------------------------------------------------------------------
+	
+	public void writeFile() {
 		// overloaded method: this calls doWrite with different file name 
 		// use this for testing write
-		doWrite(altFileName);		
+		doWrite("output.txt");		
 	}// end of writeFile method
+	
+	//-----------------------------------------------------------------------------------------
 	
 	private void doWrite(String fn) {
 		// this method writes all of the data in the persons array to a file
@@ -106,11 +133,11 @@ public class DataManager
 			BufferedWriter myOutfile = new BufferedWriter(fw);	
 			for(String keyId: tracers.keySet())	//iterate over the key-value pairs(ID-Person pair)
 			{
-				myOutfile.write("ID: " + tracers.get(keyId).getId()+", ");
-				myOutfile.write("Name: " + tracers.get(keyId).getName()+", ");
-				myOutfile.write(tracers.get(keyId).getType()+", ");
-				myOutfile.write("Phone #: " +tracers.get(keyId).getNumber()+", ");
-				myOutfile.write("Status: " + tracers.get(keyId).getStatus()+", ");
+				myOutfile.write("ID: " + tracers.get(keyId).getId()+"; ");
+				myOutfile.write("Name: " + tracers.get(keyId).getName()+"; ");
+				//myOutfile.write(tracers.get(keyId).getType()+", ");
+				myOutfile.write("Phone #: " +tracers.get(keyId).getNumber()+"; ");
+				myOutfile.write("Status: " + tracers.get(keyId).getStatus()+"; ");
 				
 				myOutfile.write("Contact's ID: [" );
 				Iterator<String> iter = tracers.get(keyId).Iterator();	//iterate over the contact's IDs
@@ -129,75 +156,75 @@ public class DataManager
 			e.printStackTrace();
 			System.err.println("Didn't save to " + fn);
 		}
-	}	
-}
+		
+	}
+	//----------------------------------------------------------------------------------------------------------
+	
+	public void readFrom(String file)
+	{
+		readFile(file);
+	}
 
-
-/*private void readFile () {
-	BufferedReader lineReader = null;
-	try {
-		FileReader fr = new FileReader(fileName);
-		lineReader = new BufferedReader(fr);
-		String line = null;
-		while ((line = lineReader.readLine())!=null) {
-			String name = lineReader.readLine();
-			String id = lineReader.readLine();
-			if (line.equals("student")) {
-				String gpaString = lineReader.readLine();
-				addStudent(new Student(name,id,Double.parseDouble(gpaString)));
-			}
-			else if (line.equals("instructor")) {
-				String email = lineReader.readLine();
-				addInstructor(new Instructor(name,id,email));
-			}
-			else {
-				System.err.println("error: unnknown person type");
-			}			}
-	} catch (Exception e) {
-		System.err.println("there was a problem with the file reader, try different read type.");
+	private void readFile(String fileName) {
+		BufferedReader lineReader = null;
 		try {
-			lineReader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(fileName.substring(1))));
+			FileReader fr = new FileReader(fileName);
+			lineReader = new BufferedReader(fr);
 			String line = null;
-			while ((line = lineReader.readLine())!=null) {
-				String name = lineReader.readLine();
-				String id = lineReader.readLine();
-				if (line.equals("student")) {
-					String gpaString = lineReader.readLine();
-					addStudent(new Student(name,id,Double.parseDouble(gpaString)));
+			while ((line = lineReader.readLine())!=null)
+			{
+				String[] data = line.split(",");
+				addTracer(new Person(data[1], data[0], data[2], data[3])); // 1- id;
+																			//0 - Name; 
+																			//2-Type; 
+																			//3-PhoneNumber
+				
+				for(int i = 4; i < data.length; i++)
+				{
+					addContact(findPerson(data[0]), new Person(data[i]));		// i - contact ids & 0 - tracer id
+					
 				}
-				else if (line.equals("instructor")) {
-					String email = lineReader.readLine();
-					addInstructor(new Instructor(name,id,email));
+				
+			}
+		} catch (Exception e) {
+			System.err.println("there was a problem with the file reader, try different read type.");
+			try {
+				lineReader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(fileName.substring(1))));
+				String line = null;
+				while ((line = lineReader.readLine())!=null) 
+				{
+					String reader = lineReader.readLine();
+					String[] data = reader.split(",");
+					addTracer(new Person(data[1], data[0], data[2], data[3])); // 1- name;
+																				//0 - id; 
+																				//2- status; 
+																				//3- PhoneNumber
+					
+					for(int i = 5; i < data.length; i++)
+					{
+						addContact(findPerson(data[1]), new Person(data[i]));		// i - contact ids
+					}
+					
 				}
-				else {
-					System.err.println("error: unnknown person type");
-				}				}
-		} catch (Exception e2) {
-			System.err.println("there was a problem with the file reader, try again.  either no such file or format error");
+			} catch (Exception e2) {
+				System.err.println("there was a problem with the file reader, try again.  either no such file or format error");
+			} finally {
+				if (lineReader != null)
+					try {
+						lineReader.close();
+					} catch (IOException e2) {
+						System.err.println("could not close BufferedReader");
+					}
+			}			
 		} finally {
 			if (lineReader != null)
 				try {
 					lineReader.close();
-				} catch (IOException e2) {
+				} catch (IOException e) {
 					System.err.println("could not close BufferedReader");
 				}
-		}			
-	} finally {
-		if (lineReader != null)
-			try {
-				lineReader.close();
-			} catch (IOException e) {
-				System.err.println("could not close BufferedReader");
-			}
-	}
-} // end of readFile method
+		}
+	} // end of readFile method
 
-	*/
-	
-	
-	/*public Iterator<Person> Iterator()
-	{
-		//initialize a new iterator to cycle Person contacts
-		return new ObjectIterator<Person>(tracers);
-	}*/
-
+	//---------------------------------------------------------------------------------------------------------------------
+}

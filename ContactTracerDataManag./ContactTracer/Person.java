@@ -9,7 +9,6 @@ public class Person {
 	public static final int MAX_CONTACTS = 25;
 	private String name;
 	private String id;
-	private String type;
 	private String phone;
 	private int count;
 	private String[] contactID;
@@ -19,17 +18,23 @@ public class Person {
 	public Person() {
 		name = "not set";
 		id = "not set";
-		type = "not set";
+		status = "not set";
 		phone = "not set";
 		count = 0;
 		contactID = new String[MAX_CONTACTS];
 	}
 	
-	public Person(String n, String i, String t, String number) 
+	public Person(String idNum)
+	{
+		this();
+		id = idNum;
+	}
+	
+	public Person(String n, String i, String s, String number) 
 	{
 		name = n;
 		id = i;
-		type = t;
+		status = s;
 		phone = number;
 		count = 0;
 		contactID = new String[MAX_CONTACTS];
@@ -53,14 +58,6 @@ public class Person {
 	{
 		id = i;
 	}	
-	public String getType() 
-	{
-		return type;
-	}
-	public void setType(String t) 
-	{
-		type = t;
-	}
 	public void setStatus(String stat)
 	{
 		status = stat;
@@ -122,6 +119,14 @@ public class Person {
 	// string representation of this person
 	public String toString () 
 	{
-		return name+"("+id+")" + ", " + "type: " + type+", " + "status: " + status+", " + "Phone #: " + phone;
+		String toReturn = "ID: " + id +";"+"Name: " + name +";" + "Status: " + status + ";" + "Phone #: " + phone + ";" + "Contact IDs: [";
+		
+		while(this.Iterator().hasNext())
+		{
+			toReturn += this.Iterator().next();
+		}
+		toReturn += "]";
+	
+		return toReturn;
 	}
 }
