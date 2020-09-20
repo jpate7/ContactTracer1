@@ -29,7 +29,7 @@ public class DataManager
 	public void addTracer(Person P)
 	{//add person as a tracer, who's status is at risk or higher, and must notify his contacts
 		if(tracers.containsKey(P.getId()))
-			updateTracer(P);
+			System.out.println(P.getId() +" Already is a tracer");
 		//if tracer has Hash Key equal to Person P's ID, cannot add, instead update
 		else
 			tracers.put(P.getId(), P);	//add Person P to tracers
@@ -62,12 +62,12 @@ public class DataManager
 	
 	//---------------------------------------------------------------------------------------------
 	
-	public boolean containsContact(Person P, Person C)
+	public boolean containsContact(Person P, String C)
 	{//returns true if Contact C's ID is in Person P's contact collection
 		Iterator<String> iter = P.Iterator();
 		while(iter.hasNext())
 		{
-			if(iter.next().equals(C.getId()))	//if Person P's ID collection contains Person C's ID
+			if(iter.next().equals(C))	//if Person P's ID collection contains Person C's ID
 					return true;
 		}
 		
@@ -77,7 +77,7 @@ public class DataManager
 	//--------------------------------------------------------------------------------------------
 	
 	
-	public void addContact(Person P, Person C)	
+	public void addContact(Person P, String C)	
 	{//add Person C(contact) into the contact array collection stored in Person P(tracer)
 		
 		if(tracers.containsValue(P) && !(containsContact(P,C)))	//if tracers has Person P and P does not contain C already
@@ -85,7 +85,7 @@ public class DataManager
 			if(P.getContactSize() >= Person.MAX_CONTACTS)	//if Person P's ID collection is full
 				P.extendContactSize();		//extend ID collection size 
 			
-			P.addContactID(C.getId());		//add Person C's id to Person P's ID collection
+			P.addContactID(C);		//add Person C's id to Person P's ID collection
 		}
 		else
 			System.out.println("Person is not a contact tracer, cannot add contact!");
@@ -135,7 +135,6 @@ public class DataManager
 			{
 				myOutfile.write("ID: " + tracers.get(keyId).getId()+"; ");
 				myOutfile.write("Name: " + tracers.get(keyId).getName()+"; ");
-				//myOutfile.write(tracers.get(keyId).getType()+", ");
 				myOutfile.write("Phone #: " +tracers.get(keyId).getNumber()+"; ");
 				myOutfile.write("Status: " + tracers.get(keyId).getStatus()+"; ");
 				
@@ -181,7 +180,7 @@ public class DataManager
 				
 				for(int i = 4; i < data.length; i++)
 				{
-					addContact(findPerson(data[0]), new Person(data[i]));		// i - contact ids & 0 - tracer id
+					addContact(findPerson(data[0]), new String(data[i]));		// i - contact ids & 0 - tracer id
 					
 				}
 				
@@ -202,7 +201,7 @@ public class DataManager
 					
 					for(int i = 5; i < data.length; i++)
 					{
-						addContact(findPerson(data[1]), new Person(data[i]));		// i - contact ids
+						addContact(findPerson(data[1]), new String(data[i]));		// i - contact ids
 					}
 					
 				}
