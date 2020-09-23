@@ -4,14 +4,16 @@
 package ContactTracer;
 
 import java.util.Iterator;
+import java.lang.Object;
+import java.io.*; 
+import java.util.*;
 
 public class Person {
-	public static final int MAX_CONTACTS = 25;
 	private String name;
 	private String id;
 	private String phone;
 	private int count;
-	private String[] contactID;
+	private ArrayList<String> contactID;
 	private String status;
 	
 	
@@ -21,7 +23,7 @@ public class Person {
 		status = "not set";
 		phone = "not set";
 		count = 0;
-		contactID = new String[MAX_CONTACTS];
+		contactID = new ArrayList<String>();
 	}
 	
 	public Person(String idNum)
@@ -37,7 +39,7 @@ public class Person {
 		status = s;
 		phone = number;
 		count = 0;
-		contactID = new String[MAX_CONTACTS];
+		contactID = new ArrayList<String>();
 
 	} 
 	
@@ -78,7 +80,7 @@ public class Person {
 	{
 		return count;
 	}
-	public void extendContactSize()
+	/*public void extendContactSize()
 	{
 		Iterator<String> iter = Iterator();
 		String[] newArray = new String[Person.MAX_CONTACTS * 2];
@@ -89,11 +91,11 @@ public class Person {
 			i++;
 		}
 		contactID = newArray;
-	}
+	}*/
 	
 	public void addContactID(String id)
 	{
-		contactID[count] = id;
+		contactID.add(id);
 		count++;	
 	}
 
@@ -113,9 +115,8 @@ public class Person {
 	public Iterator<String> Iterator()
 	{
 		//initialize a new iterator to cycle Person contacts
-		return new ObjectIterator<String>(contactID, count);
+		return new ArrayListIterator<String>(contactID, count);
 	}
-	
 	// string representation of this person
 	public String toString () 
 	{

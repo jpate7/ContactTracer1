@@ -1,2 +1,2 @@
-ID: 000; Name: Jake; Phone #: 1234567845; Status: is safe; Contact's ID: [001, 003, 005, 009, ]
-ID: 001; Name: Stan; Phone #: 1236783456; Status: is safe; Contact's ID: [000, 004, 007, 008, ]
+ID: 000; Name: Jake; Phone #: 1234567845; Status: is safe; Contact's ID: [001, 003, ]
+ID: 001; Name: Stan; Phone #: 1236783456; Status: is safe; Contact's ID: [000, 004, ]

@@ -78,13 +78,10 @@ public class DataManager
 	
 	
 	public void addContact(Person P, String C)	
-	{//add Person C(contact) into the contact array collection stored in Person P(tracer)
+	{//add Person C(contact) id into the contact array collection stored in Person P(tracer)
 		
 		if(tracers.containsValue(P) && !(containsContact(P,C)))	//if tracers has Person P and P does not contain C already
 		{
-			if(P.getContactSize() >= Person.MAX_CONTACTS)	//if Person P's ID collection is full
-				P.extendContactSize();		//extend ID collection size 
-			
 			P.addContactID(C);		//add Person C's id to Person P's ID collection
 		}
 		else
@@ -192,18 +189,17 @@ public class DataManager
 				String line = null;
 				while ((line = lineReader.readLine())!=null) 
 				{
-					String reader = lineReader.readLine();
-					String[] data = reader.split(",");
-					addTracer(new Person(data[1], data[0], data[2], data[3])); // 1- name;
-																				//0 - id; 
-																				//2- status; 
-																				//3- PhoneNumber
+					String[] data = line.split(",");
+					addTracer(new Person(data[1], data[0], data[2], data[3])); // 1- id;
+																				//0 - Name; 
+																				//2-Type; 
+																				//3-PhoneNumber
 					
-					for(int i = 5; i < data.length; i++)
+					for(int i = 4; i < data.length; i++)
 					{
-						addContact(findPerson(data[1]), new String(data[i]));		// i - contact ids
+						addContact(findPerson(data[0]), new String(data[i]));		// i - contact ids & 0 - tracer id
+						
 					}
-					
 				}
 			} catch (Exception e2) {
 				System.err.println("there was a problem with the file reader, try again.  either no such file or format error");
