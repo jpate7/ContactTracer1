@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import java.util.Scanner;
 
 public class DataManager
 {
@@ -85,7 +85,7 @@ public class DataManager
 			P.addContactID(C);		//add Person C's id to Person P's ID collection
 		}
 		else
-			System.out.println("Person is not a contact tracer, cannot add contact!");
+			System.out.println("Person is not a contact tracer or contact is already included!");
 	}
 	
 	//----------------------------------------------------------------------------------------
@@ -107,8 +107,67 @@ public class DataManager
 		if(tracers.containsKey(id))
 			return tracers.get(id);	//returns Person that has the parameter(id) as its key
 		
-		System.out.println("Person is not a tracer, returning a new person with no identification");
-		return new Person();
+		System.out.println("Person is not a tracer, returning a null reference ");
+		return null;
+	}
+	
+	
+	//---------------------------------------------------------------------------------------------
+	
+	public void writeToTerminal()
+	{//outputs all the relevent informations stored in the current(this) DataManger(HashMap)
+		for(String keyId: tracers.keySet())	//iterate over the key-value pairs(ID-Person pair)
+		{
+			System.out.print("ID: " + tracers.get(keyId).getId()+"; ");
+			System.out.print("Name: " + tracers.get(keyId).getName()+"; ");
+			System.out.print("Phone #: " +tracers.get(keyId).getNumber()+"; ");
+			System.out.print("Status: " + tracers.get(keyId).getStatus()+"; ");
+			
+			System.out.print("ID of Contacts: [" );
+			Iterator<String> iter = tracers.get(keyId).Iterator();	//iterate over the contact's IDs
+			while(iter.hasNext())
+			{
+				System.out.print(iter.next()+ ", ");	//print Person's contact's IDs
+			}
+			System.out.print("]\n");
+		}
+		
+	}
+	
+	//-----------------------------------------------------------------------------------------------
+	public void inputFromKeyboard()
+	{//input a person object's data attributes from keyboard input
+		Scanner scan = new Scanner(System.in);
+		Person anotherPerson = new Person();
+		String temp = new String();
+		
+		//ask for person info
+		
+		//ask for person id
+		do
+		{
+			System.out.print("Please input a three digit person's ID: ");
+			temp = scan.next();
+		}while(tracers.containsKey(temp) || Integer.parseInt(temp) < 0);
+		anotherPerson.setId(temp);
+		//ask for person name
+		System.out.print("Please input the name of person: ");
+		temp = scan.nextLine();
+		anotherPerson.setName(temp);
+		//ask for person's current status
+		
+		
+		/*
+		String[] data = line.split(",");
+		addTracer(new Person(data[1], data[0], data[2], data[3])); // 1- id;
+																	//0 - Name; 
+																	//2-Type; 
+																	//3-PhoneNumber
+		
+		for(int i = 4; i < data.length; i++)
+		{
+			addContact(findPerson(data[0]), new String(data[i]));		// i - contact ids & 0 - tracer id
+			*/
 	}
 	
 	//----------------------------------------------------------------------------------------
@@ -135,7 +194,7 @@ public class DataManager
 				myOutfile.write("Phone #: " +tracers.get(keyId).getNumber()+"; ");
 				myOutfile.write("Status: " + tracers.get(keyId).getStatus()+"; ");
 				
-				myOutfile.write("Contact's ID: [" );
+				myOutfile.write("ID of Contacts: [" );
 				Iterator<String> iter = tracers.get(keyId).Iterator();	//iterate over the contact's IDs
 				while(iter.hasNext())
 				{
@@ -223,3 +282,4 @@ public class DataManager
 
 	//---------------------------------------------------------------------------------------------------------------------
 }
+

@@ -80,19 +80,7 @@ public class Person {
 	{
 		return count;
 	}
-	/*public void extendContactSize()
-	{
-		Iterator<String> iter = Iterator();
-		String[] newArray = new String[Person.MAX_CONTACTS * 2];
-		int i = 0;
-		while(iter.hasNext())
-		{
-			newArray[i] = iter.next();
-			i++;
-		}
-		contactID = newArray;
-	}*/
-	
+
 	public void addContactID(String id)
 	{
 		contactID.add(id);
@@ -120,7 +108,7 @@ public class Person {
 	// string representation of this person
 	public String toString () 
 	{
-		String toReturn = "ID: " + id +";"+"Name: " + name +";" + "Status: " + status + ";" + "Phone #: " + phone + ";" + "Contact IDs: [";
+		String toReturn = "ID: " + id +";"+"Name: " + name +";" + "Status: " + status + ";" + "Phone #: " + phone + ";" + "ID of Contacts: [";
 		
 		while(this.Iterator().hasNext())
 		{
