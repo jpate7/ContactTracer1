@@ -87,6 +87,22 @@ public class DataManager
 		else
 			System.out.println("Person is not a contact tracer or contact is already included!");
 	}
+	//--------------------------------------------------------------------------------------------
+	
+	public void removeContact(Person P, String C)
+	{//removes the id of contact C from person P's library of ids
+		
+		Iterator<String> iter = P.Iterator();
+		while(iter.hasNext())
+		{
+			if(iter.next().equals(C))
+			{
+				P.removeContactID(C);	//removes the contact from person
+				return;					//returns now that contact has been removed and there are no duplicates
+			}
+		}
+		
+	}
 	
 	//----------------------------------------------------------------------------------------
 	
@@ -135,7 +151,7 @@ public class DataManager
 	}
 	
 	//-----------------------------------------------------------------------------------------------
-	public void inputFromKeyboard()
+	public Person inputFromKeyboard()
 	{//input a person object's data attributes from keyboard input
 		Scanner scan = new Scanner(System.in);
 		Person anotherPerson = new Person();
@@ -147,27 +163,34 @@ public class DataManager
 		do
 		{
 			System.out.print("Please input a three digit person's ID: ");
-			temp = scan.next();
+			temp = scan.nextLine();
 		}while(tracers.containsKey(temp) || Integer.parseInt(temp) < 0);
 		anotherPerson.setId(temp);
+		
 		//ask for person name
 		System.out.print("Please input the name of person: ");
 		temp = scan.nextLine();
 		anotherPerson.setName(temp);
+		
 		//ask for person's current status
+		System.out.print("Please input the current staus of person: ");
+		temp = scan.nextLine();
+		anotherPerson.setStatus(temp);
 		
+		//ask for person's phone number
+		System.out.print("Please input the phone number of person (no spaces or dashes): ");
+		temp = scan.nextLine();
+		anotherPerson.setNumber(temp);
 		
-		/*
-		String[] data = line.split(",");
-		addTracer(new Person(data[1], data[0], data[2], data[3])); // 1- id;
-																	//0 - Name; 
-																	//2-Type; 
-																	//3-PhoneNumber
-		
-		for(int i = 4; i < data.length; i++)
+		//ask for all entries of person's contacts
+		System.out.print("Please input all the ids of contacts for the person (seperated by commas): ");
+		temp = scan.nextLine();
+		String[] data = temp.split(",");
+		for(int i = 0; i < data.length; i++)
 		{
-			addContact(findPerson(data[0]), new String(data[i]));		// i - contact ids & 0 - tracer id
-			*/
+			anotherPerson.addContactID(data[i]);	
+		}
+		return anotherPerson;
 	}
 	
 	//----------------------------------------------------------------------------------------

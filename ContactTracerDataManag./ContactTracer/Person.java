@@ -86,6 +86,12 @@ public class Person {
 		contactID.add(id);
 		count++;	
 	}
+	public void removeContactID(String id)
+	{
+		contactID.remove(id);
+		contactID.trimToSize();
+		count--;
+	}
 
 	public String isAtRisk()
 	{

@@ -1,2 +1,5 @@
-ID: 000; Name: Jake; Phone #: 1234567845; Status: is safe; Contact's ID: [001, 003, ]
-ID: 001; Name: Stan; Phone #: 1236783456; Status: is safe; Contact's ID: [000, 004, ]
+ID: 000; Name: Jake; Phone #: 1234567845; Status: is safe; ID of Contacts: [001, 003, ]
+ID: 001; Name: Stan; Phone #: 1236783456; Status: is safe; ID of Contacts: [000, 004, ]
+ID: 002; Name: Alex; Phone #: 1245093423; Status: is infected; ID of Contacts: [007, 011, ]
+ID: 003; Name: Sofie; Phone #: 1347682356; Status: is safe; ID of Contacts: [001, 008, ]
+ID: 007; Name: Roger; Phone #: 2358392034; Status: is at risk; ID of Contacts: [002, 009, ]
