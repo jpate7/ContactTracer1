@@ -1,3 +1,5 @@
+//Jignesh(Jake) Patel
+
 /**
  * 
  */
@@ -22,7 +24,7 @@ public class ProjectTester {
 		Person sofie = new Person("Sofie", "001", "", "1234563456");
 		Person jane = new Person("Jane", "002", "", "1234565670");
 		Person alex = new Person("Alex", "005", "", "1234565670");
-		Person roger = new Person("roger", "008", "", "1234565670");
+		Person roger = new Person("Roger", "008", "", "1234565670");
 		//set status
 		john.setStatus(john.isSafe());
 		sofie.setStatus(sofie.isSafe());
@@ -48,7 +50,8 @@ public class ProjectTester {
 		manager.addContact(john, alex.getId());
 		manager.addContact(john, roger.getId());
 		manager.removeContact(john, jane.getId());
-		manager.addTracer(manager.inputFromKeyboard());
+		manager.printAllContacts(john);
+		//manager.addTracer(manager.inputFromKeyboard());
 		manager.writeToTerminal();
 		
 		//reads and writes from text files

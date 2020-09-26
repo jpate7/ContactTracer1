@@ -1,4 +1,4 @@
-
+//Jignesh(Jake) Patel
 package ContactTracer;
 
 import java.util.Iterator;
@@ -29,7 +29,7 @@ public class DataManager
 	public void addTracer(Person P)
 	{//add person as a tracer, who's status is at risk or higher, and must notify his contacts
 		if(tracers.containsKey(P.getId()))
-			System.out.println(P.getId() +" Already is a tracer");
+			System.out.println(P.getId() + "(" + P.getName()+ ")"+" Already is a tracer");
 		//if tracer has Hash Key equal to Person P's ID, cannot add, instead update
 		else
 			tracers.put(P.getId(), P);	//add Person P to tracers
@@ -45,7 +45,7 @@ public class DataManager
 		if(tracers.containsKey(P.getId()))
 			tracers.replace(P.getId(), P);
 		else
-			System.out.println("Cannot update, Person is not a tracer");
+			System.out.println("Cannot update, " +"(" + P.getName()+ ") "+ "Person is not a tracer");
 	}
 	
 	//---------------------------------------------------------------------------------------------
@@ -85,23 +85,47 @@ public class DataManager
 			P.addContactID(C);		//add Person C's id to Person P's ID collection
 		}
 		else
-			System.out.println("Person is not a contact tracer or contact is already included!");
+			System.out.println("Person" + "(" + P.getName() + ") " + "is not a contact tracer or contact is already included!");
 	}
 	//--------------------------------------------------------------------------------------------
 	
 	public void removeContact(Person P, String C)
-	{//removes the id of contact C from person P's library of ids
+	{//removes the id of contact C from person P's(tracer) library of ids
 		
-		Iterator<String> iter = P.Iterator();
-		while(iter.hasNext())
+		if(tracers.containsValue(P))
 		{
-			if(iter.next().equals(C))
+			Iterator<String> iter = P.Iterator();
+			while(iter.hasNext())
 			{
-				P.removeContactID(C);	//removes the contact from person
-				return;					//returns now that contact has been removed and there are no duplicates
+				if(iter.next().equals(C))
+				{
+					P.removeContactID(C);	//removes the contact from person
+					return;					//returns now that contact has been removed and there are no duplicates
+				}
 			}
 		}
+		else
+			System.out.println("Person" + "(" + P.getName() + ") " + "is not a contact tracer or contact cannot be removed");
 		
+	}
+	
+	public void printAllContacts(Person P)
+	{//prints all the contacts of Person P, if person P is in tracer
+		if(tracers.containsValue(P))
+		{
+			String toReturn = new String();
+	
+			Iterator<String> iter = P.Iterator();
+			while(iter.hasNext())
+			{
+				toReturn += iter.next() + ", ";
+			}
+			
+			System.out.println(P.getName() + "'s contacts: " +toReturn);
+		}
+		else
+			System.out.println("Person" + "(" + P.getName() + ") " + "is not a contact tracer so no contact to print");
+			
 	}
 	
 	//----------------------------------------------------------------------------------------

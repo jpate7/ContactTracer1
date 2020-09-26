@@ -1,3 +1,4 @@
+//Jignesh(Jake) Patel
 /**
  * 
  */
@@ -12,7 +13,6 @@ public class Person {
 	private String name;
 	private String id;
 	private String phone;
-	private int count;
 	private ArrayList<String> contactID;
 	private String status;
 	
@@ -22,7 +22,6 @@ public class Person {
 		id = "not set";
 		status = "not set";
 		phone = "not set";
-		count = 0;
 		contactID = new ArrayList<String>();
 	}
 	
@@ -38,7 +37,6 @@ public class Person {
 		id = i;
 		status = s;
 		phone = number;
-		count = 0;
 		contactID = new ArrayList<String>();
 
 	} 
@@ -78,19 +76,17 @@ public class Person {
 	}
 	public int getContactSize()
 	{
-		return count;
+		return contactID.size();
 	}
 
 	public void addContactID(String id)
 	{
-		contactID.add(id);
-		count++;	
+		contactID.add(id);	
 	}
 	public void removeContactID(String id)
 	{
 		contactID.remove(id);
 		contactID.trimToSize();
-		count--;
 	}
 
 	public String isAtRisk()
@@ -109,7 +105,7 @@ public class Person {
 	public Iterator<String> Iterator()
 	{
 		//initialize a new iterator to cycle Person contacts
-		return new ArrayListIterator<String>(contactID, count);
+		return new ArrayListIterator<String>(contactID, contactID.size());
 	}
 	// string representation of this person
 	public String toString () 
